@@ -1,5 +1,5 @@
 {
-  "name": "acgrid/phpDI",
+  "name": "acgrid/php-di",
   "type": "library",
   "keyword": ["decoupling", "dependency injection", "meta-programming"],
   "description": "General dependency injection implementation.",
