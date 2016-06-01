@@ -145,8 +145,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $di->register(ConfigurableA::class);
         $this->assertSame([ConfigurableA::class => [Container::DEF_CLASS => ConfigurableA::class]], $di->getDefinitions());
         $object = new ClientClass(new ConfigurableA(4), new ConfigurableB(6));
+        $di->registerSingleton('pre-object-immutable', $object);
+        $this->assertSame($object, $di->get('pre-object-immutable'));
         $di->register('pre-object', $object);
-        $this->assertSame($object, $di->get('pre-object'));
+        $this->assertNotSame($object, $object2 = $di->get('pre-object'));
+        /** @var ClientClass $object2 */
+        $this->assertSame(4, $object2->a->data);
+        $this->assertSame(6, $object2->b->data);
     }
 
     public function testSetter()

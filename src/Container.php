@@ -53,7 +53,7 @@ class Container
     const DEF_CALLBACK = 'callback';
     /**
      * DEF_FACTORY standard factory callback, the function or method takes any form of parameters.
-     * The param array like [a, b, c] will invoke the callback like func(a, b, c)     *
+     * The param array like [a, b, c] will invoke the callback like func(a, b, c)
      */
     const DEF_FACTORY = 'static';
     /**
@@ -119,7 +119,7 @@ class Container
         if(isset($this->definitions[$type])){
             $definition =& $this->definitions[$type];
             if(is_object($definition)){
-                return $this->singletons[$type] = $definition;
+                return clone $definition;
             }elseif(is_array($definition)){
                 if(isset($definition[self::CFG_PARAM])){
                     if(!is_array($definition[self::CFG_PARAM])) $definition[self::CFG_PARAM] = [$definition[self::CFG_PARAM]];
@@ -172,7 +172,7 @@ class Container
     public function registerSingleton($type, $definitions = [])
     {
         $this->definitions[$type] = $this->parseDefinition($type, $definitions);
-        $this->singletons[$type] = null;
+        $this->singletons[$type] = is_object($this->definitions[$type]) ? $this->definitions[$type] : null;
         return $this;
     }
 
